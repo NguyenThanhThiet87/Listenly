@@ -18,10 +18,16 @@ def extract_video_id(url: str) -> str:
 def get_transcript(video_id: str):
     """Fetches and normalizes the transcript for a YouTube video."""
     try:
-        # youtube-transcript-api v1.x uses instance-based API
-        ytt_api = YouTubeTranscriptApi()
-        fetched = ytt_api.fetch(video_id, languages=['en'])
-        transcript_list = fetched.to_raw_data()
+        kwargs = {}
+        if settings.YOUTUBE_PROXY:
+            kwargs['proxies'] = {
+                "http": settings.YOUTUBE_PROXY,
+                "https": settings.YOUTUBE_PROXY,
+            }
+        if settings.YOUTUBE_COOKIES_FILE:
+            kwargs['cookies'] = settings.YOUTUBE_COOKIES_FILE
+
+        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'], **kwargs)
         
         # Normalize the transcript to a single string with timestamps
         formatted_transcript = ""
