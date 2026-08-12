@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ReactPlayer from 'react-player';
 import { Play, Pause, RotateCcw, RotateCw } from 'lucide-react';
 import './Shadowing.css';
 
@@ -9,19 +8,41 @@ function ShadowingPlayer({ session }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [playbackRate, setPlaybackRate] = useState(1);
-  const playerRef = useRef(null);
+  const audioRef = useRef(null);
   const textContainerRef = useRef(null);
 
   const { id, words, duration } = session;
-  const audioUrl = `${API_BASE_URL}/shadowing/audio/${id}`;
+  const audioUrl = `${API_BASE_URL}/shadowing/audio/${id}.mp3`;
 
-  const handleProgress = (state) => {
-    setCurrentTime(state.playedSeconds);
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackRate;
+    }
+  }, [playbackRate]);
+
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current?.play().catch(e => {
+        console.error("Audio playback error:", e);
+        setIsPlaying(false);
+      });
+    } else {
+      audioRef.current?.pause();
+    }
+  }, [isPlaying]);
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
   };
 
   const handleSeek = (amount) => {
-    if (playerRef.current) {
-      playerRef.current.seekTo(currentTime + amount, 'seconds');
+    if (audioRef.current) {
+      audioRef.current.currentTime = Math.min(
+        Math.max(audioRef.current.currentTime + amount, 0),
+        duration
+      );
     }
   };
 
@@ -91,8 +112,9 @@ function ShadowingPlayer({ session }) {
               id={`word-${index}`}
               className={`transcript-word ${index === activeWordIndex ? 'active' : ''} ${currentTime > w.end ? 'played' : ''}`}
               onClick={() => {
-                if (playerRef.current) {
-                  playerRef.current.seekTo(w.start, 'seconds');
+                if (audioRef.current) {
+                  audioRef.current.currentTime = w.start;
+                  if (!isPlaying) setIsPlaying(true);
                 }
               }}
             >
@@ -108,16 +130,13 @@ function ShadowingPlayer({ session }) {
         <div className="mode">🔒 Challenge</div>
       </div>
 
-      <ReactPlayer
-        ref={playerRef}
-        url={audioUrl}
-        playing={isPlaying}
-        playbackRate={playbackRate}
-        onProgress={handleProgress}
+      <audio
+        ref={audioRef}
+        src={audioUrl}
+        onTimeUpdate={handleTimeUpdate}
         onEnded={() => setIsPlaying(false)}
-        width="0"
-        height="0"
-        progressInterval={100}
+        preload="auto"
+        style={{ display: 'none' }}
       />
     </div>
   );

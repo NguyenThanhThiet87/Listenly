@@ -4,8 +4,17 @@ import './Shadowing.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
+const VOICE_OPTIONS = [
+  { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella (American, Female)' },
+  { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel (American, Female)' },
+  { id: 'ErXwobaYiN019PkySvjV', name: 'Antoni (American, Male)' },
+  { id: 'tx3xezyWAobWbWvNWXJI', name: 'Josh (American, Male)' },
+  { id: 'pNInz6obpgDQGcFmaJcg', name: 'Adam (American, Male)' }
+];
+
 function ShadowingInput({ onGenerated }) {
   const [text, setText] = useState('');
+  const [voiceId, setVoiceId] = useState(VOICE_OPTIONS[0].id);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -21,7 +30,7 @@ function ShadowingInput({ onGenerated }) {
     try {
       const response = await axios.post(`${API_BASE_URL}/shadowing/generate`, {
         text,
-        voice_id: 'EXAVITQu4vr4xnSDxMaL', // Default: Bella
+        voice_id: voiceId,
         style: 'natural'
       });
       onGenerated(response.data);
@@ -67,8 +76,16 @@ function ShadowingInput({ onGenerated }) {
           <div className="selectors">
             <div className="selector">
               <label>Voice</label>
-              <select className="input-field" disabled>
-                <option>American English (Bella)</option>
+              <select 
+                className="input-field" 
+                value={voiceId} 
+                onChange={(e) => setVoiceId(e.target.value)}
+              >
+                {VOICE_OPTIONS.map(voice => (
+                  <option key={voice.id} value={voice.id}>
+                    {voice.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="selector">
