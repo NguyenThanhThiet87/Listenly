@@ -1,0 +1,304 @@
+Được. Với chức năng này, mình sẽ mô tả nó như một feature spec/script hoàn chỉnh để bạn có thể đưa thẳng cho frontend/backend hoặc AI coding agent triển khai.
+Luồng tổng thể
+                    SHADOWING STUDIO
+                           │
+                           ▼
+              ┌──────────────────────┐
+              │ 1. Nhập văn bản      │
+              │                      │
+              │ Paste English text   │
+              └──────────┬───────────┘
+                         │
+                         ▼
+              ┌──────────────────────┐
+              │ 2. Text Processing   │
+              │                      │
+              │ • Normalize text     │
+              │ • Split sentences    │
+              │ • Detect paragraphs  │
+              └──────────┬───────────┘
+                         │
+                         ▼
+              ┌──────────────────────┐
+              │ 3. Generate Voice    │
+              │                      │
+              │ ElevenLabs TTS       │
+              │ English native voice │
+              └──────────┬───────────┘
+                         │
+                         ▼
+              ┌──────────────────────┐
+              │ 4. Generate Timing   │
+              │                      │
+              │ Audio ↔ text         │
+              │ sentence / word      │
+              │ timestamps           │
+              └──────────┬───────────┘
+                         │
+                         ▼
+              ┌──────────────────────┐
+              │ 5. Shadowing Player  │
+              │                      │
+              │ ▶ Play               │
+              │ ↶ Restart            │
+              │ Speed                │
+              │ Auto-scroll          │
+              │ Word highlighting    │
+              └──────────────────────┘
+Giao diện đề xuất
+┌───────────────────────────────────────────────────────────────┐
+│  ← English Learning                         Shadowing Studio  │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  Create a Shadowing Practice                                  │
+│  Turn any English text into a natural speaking exercise.      │
+│                                                               │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │ Paste your English text here...                         │  │
+│  │                                                         │  │
+│  │ The first thing I noticed was how quiet the room was.  │  │
+│  │ I had never experienced anything like it before.       │  │
+│  │                                                         │  │
+│  │                                                         │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│                                                               │
+│  247 words                                      Clear text    │
+│                                                               │
+│  Voice                                                        │
+│  ┌─────────────────────────┐                                  │
+│  │ American English    ▼   │                                  │
+│  └─────────────────────────┘                                  │
+│                                                               │
+│  Speaking style                                               │
+│  ┌─────────────────────────┐                                  │
+│  │ Natural & Expressive ▼  │                                  │
+│  └─────────────────────────┘                                  │
+│                                                               │
+│                         [ Generate Shadowing ]                 │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+Sau khi generate xong chuyển sang player:
+┌───────────────────────────────────────────────────────────────┐
+│  ← Shadowing Studio                              Practice     │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│                     Shadowing Practice                        │
+│                                                               │
+│                     01:24 / 03:42                              │
+│                                                               │
+│                 ↶       ▶       ↷                             │
+│                                                               │
+│  ━━━━━━━━━━━━━━━━━━━●━━━━━━━━━━━━━━━━━━━━━━                   │
+│                                                               │
+│  Speed:   0.75x    1x    1.25x    1.5x                       │
+│                                                               │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│                                                               │
+│  The first thing I noticed was how quiet                      │
+│  the room was.                                                │
+│                                                               │
+│  I had never experienced anything like it                     │
+│  before.                                                       │
+│                                                               │
+│  It was completely different from what                        │
+│  I had imagined.                                              │
+│                                                               │
+│                                                               │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│          🎧 Listen       🎤 Shadow       🔒 Challenge          │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+Khi audio chạy
+Ví dụ speaker đang nói:
+"The first thing I noticed..."
+UI phải biến thành:
+The first thing I noticed was how quiet
+       ↑
+    current
+Sau đó:
+The first thing I noticed was how quiet
+                                         ↓
+                                      current
+và text tự động:
+               ↓
+┌──────────────────────────────────────┐
+│                                      │
+│ The first thing I noticed was how    │
+│ quiet the room was.                  │
+│                                      │
+│ I had never experienced anything     │
+│ like it before.                      │
+│                                      │
+└──────────────────────────────────────┘
+               ↑
+         focus area
+Không nên cuộn theo từng chữ một cách giật cục. Nên giữ current sentence ở vùng trung tâm và chuyển câu bằng smooth scrolling.
+
+Script hoạt động của người dùng
+Step 1 — Nhập nội dung
+Người dùng vào:
+Shadowing Studio
+Paste đoạn tiếng Anh.
+Bấm:
+Generate Shadowing
+Hiển thị:
+Generating your practice...
+
+✓ Processing text
+✓ Preparing pronunciation
+● Generating natural voice
+○ Preparing synchronization
+
+Step 2 — Tạo audio
+Backend gửi text tới ElevenLabs.
+Frontend
+   ↓
+POST /api/shadowing/generate
+   ↓
+Backend
+   ↓
+ElevenLabs
+   ↓
+Audio + alignment
+   ↓
+Storage
+Sau khi hoàn thành:
+✓ Your shadowing practice is ready.
+
+Step 3 — Người dùng bắt đầu luyện
+Bấm:
+▶ Start
+Audio bắt đầu.
+Đồng thời:
+audio.currentTime
+       ↓
+find current word
+       ↓
+highlight
+       ↓
+find current sentence
+       ↓
+smooth scroll
+
+Step 4 — Người dùng shadow
+Speaker:
+"The first thing I noticed was how quiet the room was."
+Người học nói đồng thời theo speaker.
+Ở phiên bản MVP:
+🔊 Speaker
+👤 Learner
+Chưa cần microphone.
+Sau này:
+Speaker ──────┐
+              ├──→ Shadowing
+Microphone ───┘
+rồi AI đánh giá pronunciation.
+
+Các trạng thái UI
+Initial
+[ Paste your English text ]
+
+            [ Generate ]
+Processing
+Generating...
+
+██████████████░░░░░░ 72%
+Ready
+✓ Ready
+
+[ ▶ Start Shadowing ]
+Playing
+🔊 Playing
+
+▶ ━━━━━━━━━●━━━━━━━━
+
+Current sentence highlighted
+Auto-scroll enabled
+Paused
+⏸ Paused
+
+[ ▶ Resume ]
+Finished
+🎉 Practice complete
+
+Listening time: 03:42
+Words practiced: 247
+
+[ 🔄 Practice Again ]
+[ ← Back to Studio ]
+
+API structure
+MVP có thể chỉ cần:
+POST /api/shadowing/generate
+GET  /api/shadowing/{id}
+GET  /api/shadowing/{id}/audio
+POST:
+{
+  "text": "The first thing I noticed...",
+  "voice_id": "xxx",
+  "style": "natural"
+}
+Response:
+{
+  "id": "shadow_123",
+  "audio_url": "...",
+  "duration": 42.5,
+  "segments": [
+    {
+      "text": "The first thing I noticed...",
+      "start": 0,
+      "end": 3.4
+    }
+  ],
+  "words": [
+    {
+      "text": "The",
+      "start": 0,
+      "end": 0.25
+    }
+  ]
+}
+
+Kiến trúc frontend
+ShadowingStudio
+│
+├── TextInput
+│
+├── VoiceSelector
+│
+├── StyleSelector
+│
+├── GenerateButton
+│
+└── ShadowingPlayer
+    │
+    ├── AudioPlayer
+    ├── ProgressBar
+    ├── SpeedControl
+    ├── TranscriptViewer
+    │   ├── Sentence
+    │   └── Word
+    │
+    └── PracticeMode
+        ├── Listen
+        ├── Shadow
+        └── Challenge
+Core state
+currentTime
+duration
+isPlaying
+currentWordIndex
+currentSentenceIndex
+playbackRate
+mode
+
+MVP nên chốt ở đây
+Phase 1:
+Text → ElevenLabs → Audio → timestamp → highlight → auto-scroll → play/pause/restart/seek/speed.
+Phase 2:
+Microphone → thu giọng người học → so sánh với speaker.
+Phase 3:
+AI đánh giá pronunciation + rhythm + fluency + intonation.
+Như vậy ngay từ MVP bạn đã có một chức năng Shadowing hoàn chỉnh, nhưng kiến trúc vẫn mở đường để sau này biến nó thành hệ thống luyện nói tiếng Anh thực sự.

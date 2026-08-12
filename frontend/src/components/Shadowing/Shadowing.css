@@ -1,0 +1,225 @@
+.input-card {
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.text-area {
+  width: 100%;
+  resize: vertical;
+  min-height: 150px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  padding: 15px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.text-area:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.text-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.text-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.text-btn:hover {
+  text-decoration: underline;
+}
+
+.selectors {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.selector {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.selector label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.selector select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.shadowing-player {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.time-display {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.main-play-btn {
+  width: 60px;
+  height: 60px;
+  background: var(--primary-gradient);
+}
+
+.main-play-btn:hover {
+  transform: scale(1.05);
+  background: var(--primary-gradient);
+}
+
+.play-icon {
+  margin-left: 4px;
+}
+
+.speed-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.speed-label {
+  color: var(--text-secondary);
+  margin-right: 10px;
+}
+
+.speed-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: 5px 12px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.speed-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.transcript-viewer {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  height: 300px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.text-content {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 100px 0; /* Add padding to allow scrolling to center */
+}
+
+.transcript-word {
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.transcript-word:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.transcript-word.played {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.transcript-word.active {
+  color: var(--text-primary);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+  font-weight: 600;
+}
+
+.mode-selector {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mode {
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  opacity: 0.5;
+}
+
+.mode.active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}

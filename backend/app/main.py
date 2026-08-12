@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.modules.content.router import router as content_router
 from app.modules.practice.router import router as practice_router
+from app.modules.shadowing.router import router as shadowing_router
 
 app = FastAPI(title="Listenly API")
 
@@ -17,6 +18,7 @@ app.add_middleware(
 
 app.include_router(content_router)
 app.include_router(practice_router)
+app.include_router(shadowing_router)
 
 @app.get("/")
 def read_root():

@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     GEMINI_MODEL: str = "gemini-1.5-flash"
     YOUTUBE_PROXY: Optional[str] = None
     YOUTUBE_COOKIES_FILE: Optional[str] = None
+    ELEVENLABS_API_KEY: str = ""
 
     class Config:
         env_file = ".env"
