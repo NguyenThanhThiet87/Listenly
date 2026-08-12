@@ -15,19 +15,21 @@ def extract_video_id(url: str) -> str:
         return match.group(1)
     return ""
 
+from youtube_transcript_api.proxies import GenericProxyConfig
+
 def get_transcript(video_id: str):
     """Fetches and normalizes the transcript for a YouTube video."""
     try:
-        kwargs = {}
+        proxy_config = None
         if settings.YOUTUBE_PROXY:
-            kwargs['proxies'] = {
-                "http": settings.YOUTUBE_PROXY,
-                "https": settings.YOUTUBE_PROXY,
-            }
-        if settings.YOUTUBE_COOKIES_FILE:
-            kwargs['cookies'] = settings.YOUTUBE_COOKIES_FILE
+            proxy_config = GenericProxyConfig(
+                http_url=settings.YOUTUBE_PROXY, 
+                https_url=settings.YOUTUBE_PROXY
+            )
 
-        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'], **kwargs)
+        ytt_api = YouTubeTranscriptApi(proxy_config=proxy_config)
+        fetched = ytt_api.fetch(video_id, languages=['en'])
+        transcript_list = fetched.to_raw_data()
         
         # Normalize the transcript to a single string with timestamps
         formatted_transcript = ""
