@@ -178,7 +178,8 @@
   font-size: 1.5rem;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.5);
-  padding: 100px 0; /* Add padding to allow scrolling to center */
+  padding: 100px 0;
+  /* Add padding to allow scrolling to center */
 }
 
 .transcript-word {
@@ -229,7 +230,6 @@
 @media (max-width: 768px) {
   .input-card {
     padding: 20px;
-    margin: 0 15px;
     border-radius: 15px;
   }
 
@@ -270,5 +270,14 @@
   .text-content {
     font-size: 1.2rem;
     padding: 80px 0;
+  }
+
+  .mode-selector {
+    gap: 5px;
+  }
+
+  .mode {
+    padding: 6px 10px;
+    font-size: 0.85rem;
   }
 }
