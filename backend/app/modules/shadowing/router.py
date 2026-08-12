@@ -15,7 +15,7 @@ async def generate_shadowing(request: GenerateShadowingRequest):
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/audio/{session_id}")
+@router.get("/audio/{session_id}.mp3")
 async def get_audio(session_id: str):
     file_path = os.path.join(TEMP_AUDIO_DIR, f"{session_id}.mp3")
     if not os.path.exists(file_path):

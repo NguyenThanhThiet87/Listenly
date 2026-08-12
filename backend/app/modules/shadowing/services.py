@@ -84,7 +84,7 @@ async def generate_shadowing_content(request: GenerateShadowingRequest) -> Shado
 
     return ShadowingResponse(
         id=session_id,
-        audio_url=f"/api/shadowing/audio/{session_id}",
+        audio_url=f"/api/shadowing/audio/{session_id}.mp3",
         duration=duration,
         words=words
     )
