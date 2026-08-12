@@ -8,7 +8,7 @@
 .text-area {
   width: 100%;
   resize: vertical;
-  min-height: 150px;
+  min-height: 250px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
@@ -33,7 +33,7 @@
 .text-btn {
   background: none;
   border: none;
-  color: var(--accent);
+  color: var(--text-accent);
   cursor: pointer;
 }
 
@@ -121,12 +121,13 @@
 .main-play-btn {
   width: 60px;
   height: 60px;
-  background: var(--primary-gradient);
+  background: linear-gradient(135deg, var(--primary), #818cf8);
+  box-shadow: 0 4px 14px 0 var(--primary-glow);
 }
 
 .main-play-btn:hover {
   transform: scale(1.05);
-  background: var(--primary-gradient);
+  background: linear-gradient(135deg, var(--primary), #818cf8);
 }
 
 .play-icon {

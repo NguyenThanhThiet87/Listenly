@@ -16,7 +16,7 @@ function ShadowingStudio() {
       {!session ? (
         <ShadowingInput onGenerated={(data) => setSession(data)} />
       ) : (
-        <div className="player-wrapper">
+        <div className="shadowing-player-wrapper">
           <button className="btn-secondary back-btn" onClick={() => setSession(null)}>
             &larr; Back to Studio
           </button>
