@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, RotateCcw, RotateCw } from 'lucide-react';
 import './Shadowing.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
 function ShadowingPlayer({ session }) {
   const [isPlaying, setIsPlaying] = useState(false);
