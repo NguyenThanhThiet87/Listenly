@@ -19,9 +19,11 @@
 
 ## 📖 Overview
 
-Listenly is a full-stack SaaS application that transforms any YouTube video into an interactive **dictation-based listening exercise**. Powered by Google Gemini AI, it automatically extracts transcripts, segments them into digestible listening chunks, and delivers a clean practice interface where learners type what they hear — receiving instant AI-graded feedback.
+Listenly is a full-stack SaaS application for language learners. It offers two main modes:
+1. **YouTube Dictation**: Transforms any YouTube video into an interactive dictation-based listening exercise. Powered by Google Gemini AI, it automatically extracts transcripts, segments them into digestible listening chunks, and delivers a clean practice interface where learners type what they hear — receiving instant AI-graded feedback.
+2. **Shadowing Studio (New!)**: Paste any English text to generate ultra-realistic, natural-sounding audio with precise word-level highlighting, powered by **ElevenLabs**. Practice your pronunciation by shadowing the AI voice in real-time.
 
-> **Built for language learners who want to train their listening comprehension using real-world, native content.**
+> **Built for language learners who want to train their listening comprehension and pronunciation using real-world, native content.**
 
 <!-- 📸 SCREENSHOT PLACEHOLDER: Main hero / home page UI -->
 <!-- Replace with: ![Home Page](docs/images/screenshot-home.png) -->
@@ -34,7 +36,8 @@ Listenly is a full-stack SaaS application that transforms any YouTube video into
 |---|---|
 | 🎬 **Any YouTube Video** | Paste any YouTube URL — watch links, `youtu.be` short links, and Shorts supported |
 | 🤖 **AI Segmentation** | Gemini AI intelligently splits the transcript into meaningful listening chunks |
-| 🎧 **Synchronized Playback** | Video auto-seeks and auto-pauses at each segment boundary |
+| 🎤 **Shadowing Studio** | Paste text to generate ultra-realistic speech with ElevenLabs, featuring karaoke-style word highlighting |
+| 🎧 **Synchronized Playback** | Video and Audio auto-seeks and auto-pauses at each segment or word boundary |
 | ✍️ **Dictation Practice** | Type what you hear, get instant scoring with diff comparison |
 | 💡 **Progressive Hints** | 3-level hint system: blank count → first letters → full answer |
 | ⌨️ **Keyboard-First UX** | Full keyboard navigation — no mouse required during practice |
@@ -65,9 +68,9 @@ Listenly is a full-stack SaaS application that transforms any YouTube video into
       <em>[ screenshot-result.png ]</em>
     </td>
     <td align="center">
-      <strong>Hint System</strong><br/>
-      <!-- 📸 Replace with: <img src="docs/images/screenshot-hint.png" width="400"/> -->
-      <em>[ screenshot-hint.png ]</em>
+      <strong>Shadowing Studio</strong><br/>
+      <!-- 📸 Replace with: <img src="docs/images/screenshot-shadowing.png" width="400"/> -->
+      <em>[ screenshot-shadowing.png ]</em>
     </td>
   </tr>
 </table>
@@ -85,9 +88,7 @@ listenly/
 │   │   │   └── database.py         # MongoDB async connection
 │   │   ├── modules/
 │   │   │   ├── content/            # Video ingestion & lesson API
-│   │   │   │   ├── router.py
-│   │   │   │   ├── services.py     # Transcript fetch + Gemini AI
-│   │   │   │   └── schemas.py
+│   │   │   ├── shadowing/          # ElevenLabs TTS & timestamp sync
 │   │   │   └── practice/           # Practice session & scoring
 │   │   └── workers/
 │   │       └── llm_worker.py       # Async background processing
@@ -96,8 +97,12 @@ listenly/
 └── frontend/                       # React + Vite SPA
     └── src/
         ├── pages/
-        │   ├── Home.jsx            # URL submission & polling
+        │   ├── HomeTabs.jsx        # Navigation between modes
+        │   ├── YouTubeDictation.jsx # YouTube URL submission
+        │   ├── ShadowingStudio.jsx # Text-to-speech generation
         │   └── PracticeSession.jsx # Core practice UI
+        ├── components/
+        │   └── Shadowing/          # Shadowing Audio Player
         ├── services/
         │   └── api.js              # Axios API client
         └── store/
@@ -142,6 +147,7 @@ User submits YouTube URL
 | **Motor** | 3.x | Async MongoDB driver |
 | **MongoDB** | 7.0+ | Primary datastore |
 | **google-genai** | 2.x | Gemini AI SDK |
+| **ElevenLabs API** | Latest | Ultra-realistic TTS and word-level timestamps |
 | **youtube-transcript-api** | 1.2+ | Transcript extraction |
 | **Uvicorn** | Latest | ASGI server |
 
