@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="docs/images/logo.png" alt="Listenly Logo" width="120" />
-
 # Listenly
 
 **AI-powered English listening practice from any YouTube video.**
@@ -433,7 +431,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 
 <div align="center">
 
-Made with ❤️ by [Your Team Name](https://github.com/your-org)
+Made with ❤️ by NguyenThanhThiet87(https://github.com/NguyenThanhThiet87)
 
 ⭐ **Star this repo** if Listenly helped your English!
 
